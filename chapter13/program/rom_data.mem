@@ -1,0 +1,17 @@
+      // binary      addr  assembly
+60    // 0110_0000   0x0   IN  B
+90    // 1001_0000   0x1   OUT B
+3D    // 0011_1101   0x2   MOV A,  0xD
+01    // 0000_0001   0x3   ADD A,  0x1
+E3    // 1110_0011   0x4   JNC     0x3
+51    // 0101_0001   0x5   ADD B,  0x1
+E1    // 1110_0001   0x6   JNC     0x1
+B0    // 1011_0000   0x7   OUT     0x0
+BF    // 1011_1111   0x8   OUT     0xF
+F7    // 1111_0111   0x9   JMP     0x7
+00    // 0000_0000   0xA   NOP (ADD A, 0x0)
+00    // 0000_0000   0xB   NOP (ADD A, 0x0)
+00    // 0000_0000   0xC   NOP (ADD A, 0x0)
+00    // 0000_0000   0xD   NOP (ADD A, 0x0)
+00    // 0000_0000   0xE   NOP (ADD A, 0x0)
+00    // 0000_0000   0xF   NOP (ADD A, 0x0)
