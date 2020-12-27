@@ -1,14 +1,22 @@
 PROJ = icestick
 PIN_DEF = icestick.pcf
 DEVICE = hx1k
+PACKAGE = tq144
 
 all: $(PROJ).rpt $(PROJ).bin
 
-%.blif: $(SRCS)
-	yosys -p 'synth_ice40 -top top -blif $@' $^
+%.json: $(SRCS)
+	yosys -p 'synth_ice40 -top top -json $@' $^
 
-%.asc: $(PIN_DEF) %.blif
-	arachne-pnr -d $(subst hx,,$(subst lp,,$(DEVICE))) -o $@ -p $^
+%.asc: %.json
+	nextpnr-ice40 --$(DEVICE) --package $(PACKAGE) --pcf $(PIN_DEF) --json $< --asc $@
+
+# Following old style using arachne-pnr
+#%.blif: $(SRCS)
+#	yosys -p 'synth_ice40 -top top -blif $@' $^
+#
+#%.asc: $(PIN_DEF) %.blif
+#	arachne-pnr -d $(subst hx,,$(subst lp,,$(DEVICE))) -o $@ -p $^
 
 %.bin: %.asc
 	icepack $< $@
@@ -24,7 +32,7 @@ sudo-prog: $(PROJ).bin
 	sudo iceprog $<
 
 clean:
-	rm -f $(PROJ).blif $(PROJ).asc $(PROJ).rpt $(PROJ).bin
+	rm -f $(PROJ).blif $(PROJ).json $(PROJ).asc $(PROJ).rpt $(PROJ).bin
 
 .SECONDARY:
 .PHONY: all prog clean
