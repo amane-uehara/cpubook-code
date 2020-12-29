@@ -1,0 +1,13 @@
+# full iCEstick pinout:
+# https://github.com/jamesbowman/swapforth/blob/master/j1a/icestorm/j1a.pcf
+
+set_io pin_led[0] 99
+set_io pin_led[1] 98
+set_io pin_led[2] 97
+set_io pin_led[3] 96
+set_io pin_clock 21
+set_io pin_n_reset 3
+set_io pin_switch[0] 44
+set_io pin_switch[1] 45
+set_io pin_switch[2] 47
+set_io pin_switch[3] 48
