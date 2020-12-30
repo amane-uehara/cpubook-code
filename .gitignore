@@ -3,3 +3,5 @@ icestick.bin
 icestick.blif
 icestick.json
 icestick.rpt
+test_top.vcd
+test_top.vvp
