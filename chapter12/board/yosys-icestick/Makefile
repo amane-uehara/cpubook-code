@@ -4,6 +4,7 @@ SRCS += $(SRCDIR)/prescaler.sv
 SRCS += $(SRCDIR)/mother_board.sv
 SRCS += $(SRCDIR)/mother_board/cpu.sv
 SRCS += $(SRCDIR)/mother_board/rom.sv
+TSRCS = ./test_top.sv
 
 
 PROJ = icestick
@@ -32,6 +33,15 @@ all: $(PROJ).rpt $(PROJ).bin
 %.rpt: %.asc
 	icetime -d $(DEVICE) -mtr $@ $<
 
+test_top.vvp: $(TSRCS) $(SRCS)
+	iverilog -g2012 -o $@ $^
+
+test_top.vcd: test_top.vvp
+	vvp -N $< +vcd
+
+sim: test_top.vcd
+	gtkwave test_top.vcd
+
 prog: $(PROJ).bin
 	iceprog $<
 
@@ -40,7 +50,7 @@ sudo-prog: $(PROJ).bin
 	sudo iceprog $<
 
 clean:
-	rm -f $(PROJ).blif $(PROJ).json $(PROJ).asc $(PROJ).rpt $(PROJ).bin
+	rm -f $(PROJ).blif $(PROJ).json $(PROJ).asc $(PROJ).rpt $(PROJ).bin test_top.vvp test_top.vcd
 
 .SECONDARY:
 .PHONY: all prog clean
