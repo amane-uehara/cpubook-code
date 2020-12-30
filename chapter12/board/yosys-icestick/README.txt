@@ -9,9 +9,23 @@
 
 ## 2. ツールのインストール
 
-コンソールから下記のコマンドを実行して、合成に必要なツールをインストールしてください。
+コンソールから下記のコマンドを実行して、シミュレーションと合成に必要なツールをインストールしてください。
 
 ```
+$ git clone https://github.com/gtkwave/gtkwave.git
+$ cd gtkwave/gtkwave3
+$ sh autogen.sh
+$ ./configure
+$ make -j4
+$ sudo make install
+
+$ git clone https://github.com/steveicarus/iverilog.git
+$ cd iverilog
+$ sh autoconf.sh
+$ ./configure
+$ make -j4
+$ sudo make install
+
 $ git clone https://github.com/YosysHQ/icestorm.git icestorm
 $ cd icestorm
 $ make -j4
@@ -31,10 +45,29 @@ $ sudo make install
 
 ツールのインストール方法について詳しくは以下のページを参照してください。
 
+* GTKWave
+  http://gtkwave.sourceforge.net/
+* Installation Guide | Icarus Verilog | Fandom
+  https://iverilog.fandom.com/wiki/Installation_Guide
 * Project IceStorm
   http://www.clifford.at/icestorm/
 
-## 3. 論理合成と配置配線
+## 3. シミュレーション
+
+本ディレクトリで下記のコマンドを実行してください。
+するとシミュレーションを実行した後、GTKWaveが起動します。
+
+```
+$ cd cpubook-code/chapter12/board/yosys-icestick
+$ make sim
+```
+
+GTKWaveウィンドウの"SST"という枠にある"test_top"を右クリックしてください。
+"Recurse Import"を選択し、さらに"Insert"をクリックします。
+"Really import 41 facilits?"とのウィンドウが出るので"Yes"ボタンをクリックします。
+Ctrlキーと0キーを同時に押すとシミュレーション波形全体を表示します。
+
+## 4. 論理合成と配置配線
 
 元のprescalerのままだとiCEstick Evaluation Kitにとっては遅いので、以下のファイルを編集して分周比を変更してください。
 
@@ -64,7 +97,7 @@ $ cd cpubook-code/chapter12/board/yosys-icestick
 $ make
 ```
 
-## 4. コンフィグレーションと実行
+## 5. コンフィグレーションと実行
 
 iCEstick Evaluation Kitを開発環境のUSBポートに接続してください。
 
@@ -80,3 +113,4 @@ iCEstick Evaluation Kit上のLEDにBレジスタの内容が表示され、最�
 ## A. 制限
 
 * iCEstick Evaluation KitにはスイッチがないのでIN命令はディジタルI/Oから定値を読み出します
+* Icarus VerilogとYosysはuniqueをサポートしておらず、単に無視します
